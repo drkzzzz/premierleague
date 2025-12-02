@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración | Premier League</title>
+    <link rel="icon" href="../img/Logos/logo-premier.svg">
+    <link rel="stylesheet" href="../css/normalize.css">
+    <link rel="stylesheet" href="../css/premier.css">
+    <style>
+        /* Estilos específicos del panel */
+        .admin-section {
+            background: #fff;
+            padding: 3rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            color: var(--color-primario);
+        }
+        .admin-section h3 {
+            border-bottom: 2px solid var(--color-secundario);
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+        .btn-accion {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            margin: 0 0.5rem;
+            font-size: 1.4rem;
+        }
+        .btn-bloquear { background-color: #ff4081; color: white; }
+        .btn-eliminar { background-color: #f44336; color: white; }
+        .btn-bloquear:hover, .btn-eliminar:hover { opacity: 0.8; }
+        .tabla-admin th, .tabla-admin td {
+            color: var(--color-primario);
+        }
+    </style>
+</head>
+<body>
+    <header class="encabezado-sitio">
+        <div class="contenedor-principal contenido-header">
+            <div class="barra">
+                <a href="../premier/paginaprincipal.html">
+                    <img src="../img/Logos/icono3.png" alt="Logotipo Premier League" class="logo-invertido">
+                </a>
+                <nav class="navegacion-principal">
+                    <a href="#" id="logout-btn">Cerrar Sesión</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="seccion-principal">
+        <section class="contenedor seccion">
+            <h2 class="titulo-seccion">Panel de Administración</h2>
+            <div class="admin-section">
+                <h3>Gestión de Usuarios</h3>
+                <div class="tabla-contenedor">
+                    <table class="tabla-admin">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Usuario</th>
+                                <th>Email</th>
+                                <th>Rol</th>
+                                <th>Registro</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usuarios-table-body">
+                            <tr><td colspan="6">Cargando usuarios...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="admin-section">
+                <h3>Gestión de Comentarios (Próximamente)</h3>
+                <p>Aquí se mostrarán los comentarios con opciones para eliminarlos.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="pie-de-pagina">
+        <p class="copyright">Premier League 2025 &copy;</p>
+    </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="../js/scripts.js"></script>
+</body>
+</html>

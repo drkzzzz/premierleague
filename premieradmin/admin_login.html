@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | Premier League</title>
+    <link rel="icon" href="../img/Logos/logo-premier.svg">
+    <link rel="stylesheet" href="../css/normalize.css">
+    <link rel="stylesheet" href="../css/premier.css">
+    <style>
+        /* CSS específico para el formulario de login */
+        .login-contenedor {
+            max-width: 400px;
+            margin: 8rem auto 4rem;
+            padding: 3rem;
+            background: #fff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        .login-contenedor h2 {
+            color: var(--color-primario);
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+        }
+        .campo {
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+        .campo label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--color-gris-oscuro);
+            font-weight: 600;
+        }
+        .campo input[type="text"], 
+        .campo input[type="password"] {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 0.5rem;
+            box-sizing: border-box;
+            font-size: 1.6rem;
+            color: var(--color-primario);
+        }
+        .boton-login {
+            background-color: var(--color-secundario);
+            color: var(--color-primario);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 1.8rem;
+            font-weight: 700;
+            transition: var(--transicion);
+            width: 100%;
+        }
+        .boton-login:hover {
+            background-color: #00e676; /* Tono más oscuro de verde */
+        }
+        #login-mensaje {
+            margin-top: 1.5rem;
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+        .error {
+            color: #ff4081; /* Color de error */
+        }
+    </style>
+</head>
+<body>
+    <header class="encabezado-sitio">
+        <div class="contenedor-principal contenido-header">
+            <div class="barra">
+                <a href="../premier/paginaprincipal.html">
+                    <img src="../img/Logos/icono3.png" alt="Logotipo Premier League" class="logo-invertido">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="seccion-principal">
+        <div class="login-contenedor">
+            <h2>Acceso a Panel de Administración</h2>
+            <form id="login-form">
+                <div class="campo">
+                    <label for="username">Usuario</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="campo">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="boton-login">Iniciar Sesión</button>
+            </form>
+            <div id="login-mensaje" class="error"></div>
+        </div>
+    </main>
+
+    <footer class="pie-de-pagina">
+        <p class="copyright">Premier League 2025 &copy;</p>
+    </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="../js/scripts.js"></script>
+</body>
+</html>

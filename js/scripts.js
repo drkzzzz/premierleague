@@ -202,3 +202,134 @@ $(document).ready(function(){
         );
     });
 });
+
+
+// parte js admin
+
+// URLs base de tu backend Spring Boot
+const BASE_API_URL = 'http://localhost:8080/api';
+
+// --- FUNCIONES DE AUTENTICACIÓN ---
+
+function getJwtToken() {
+    return localStorage.getItem('jwtToken');
+}
+
+function isAdmin() {
+    // Implementación simple: verificar si el token existe
+    // En una aplicación real, se decodificaría el token para verificar el rol.
+    return getJwtToken() !== null; 
+}
+
+function handleLogin(username, password) {
+    const loginUrl = `${BASE_API_URL}/auth/login`; // Endpoint que tú crearás en Spring Boot
+
+    $.ajax({
+        url: loginUrl,
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ username: username, password: password }),
+        success: function(response) {
+            // Suponemos que la respuesta JSON contiene { token: 'JWT_TOKEN' }
+            localStorage.setItem('jwtToken', response.token);
+            $('#login-mensaje').text('Login exitoso. Redirigiendo...');
+            
+            // Redirigir al panel de administración si el login es exitoso
+            window.location.href = 'admin_dashboard.html'; 
+        },
+        error: function(xhr) {
+            let errorMsg = 'Error al iniciar sesión. Credenciales incorrectas.';
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                 errorMsg = xhr.responseJSON.message;
+            }
+            $('#login-mensaje').text(errorMsg).addClass('error');
+        }
+    });
+}
+
+function handleLogout() {
+    localStorage.removeItem('jwtToken');
+    alert('Sesión cerrada.');
+    window.location.href = 'admin_login.html';
+}
+
+// --- FUNCIONES DEL PANEL ADMIN ---
+
+function checkAdminAccess() {
+    // Si no es la página de login y no hay token, redirigir al login
+    if (!window.location.pathname.includes('admin_login.html') && !getJwtToken()) {
+        window.location.href = 'admin_login.html';
+        return false;
+    }
+    return true;
+}
+
+function loadAdminUsers() {
+    const usersUrl = `${BASE_API_URL}/admin/usuarios`; // Endpoint protegido en Spring Boot
+    const token = getJwtToken();
+
+    $.ajax({
+        url: usersUrl,
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + token 
+        },
+        success: function(users) {
+            const tableBody = $('#usuarios-table-body');
+            tableBody.empty();
+            
+            users.forEach(user => {
+                const row = `
+                    <tr>
+                        <td>${user.idUsuario}</td>
+                        <td>${user.nombreUsuario}</td>
+                        <td>${user.email}</td>
+                        <td>${user.rolNombre}</td> 
+                        <td>${new Date(user.fechaRegistro).toLocaleDateString()}</td>
+                        <td>
+                            <button class="btn-accion btn-bloquear" data-id="${user.idUsuario}">Bloquear</button>
+                            <button class="btn-accion btn-eliminar" data-id="${user.idUsuario}">Eliminar</button>
+                        </td>
+                    </tr>
+                `;
+                tableBody.append(row);
+            });
+        },
+        error: function(xhr) {
+            if (xhr.status === 403) {
+                $('#usuarios-table-body').html('<tr><td colspan="6">Acceso Denegado. Se requiere ROLE_ADMIN.</td></tr>');
+            } else {
+                $('#usuarios-table-body').html('<tr><td colspan="6">Error al cargar datos.</td></tr>');
+            }
+            // Si hay un error, puede ser un token caducado -> forzar logout
+            // if (xhr.status === 401) handleLogout(); 
+        }
+    });
+}
+
+
+// --- LÓGICA DE INICIO DE DOCUMENTO ---
+
+$(document).ready(function() {
+    // 1. Manejar el envío del formulario de Login (Solo si estamos en la página de Login)
+    $('#login-form').on('submit', function(e) {
+        e.preventDefault();
+        const username = $('#username').val();
+        const password = $('#password').val();
+        handleLogin(username, password);
+    });
+
+    // 2. Manejar el cierre de sesión (Logout)
+    $('#logout-btn').on('click', function(e) {
+        e.preventDefault();
+        handleLogout();
+    });
+
+    // 3. Lógica para el Panel de Administración
+    if (window.location.pathname.includes('admin_dashboard.html')) {
+        if (checkAdminAccess()) {
+            loadAdminUsers();
+        }
+    }
+
+});
